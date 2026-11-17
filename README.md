@@ -1,6 +1,5 @@
 # Rental Management System
 
-A web-based rental property management system built using Django.
 
 ## Project Details
 - **Project Title:** Rental Management System
