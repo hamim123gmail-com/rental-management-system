@@ -1,0 +1,620 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}Rental Management{% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="{% static 'assets/img/kaiadmin/favicon.ico' %}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="{% static 'assets/js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{% static 'assets/css/fonts.min.css' %}"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/plugins.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/kaiadmin.min.css' %}" />
+</head>
+<body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <a href="{% url 'index_page' %}" class="logo text-white text-decoration-none d-flex align-items-center">
+              <i class="fas fa-building text-info me-2 fs-4"></i>
+              <span class="fw-bold fs-4 text-white">Rental Mgt</span>
+            </a>
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item">
+                <a href="{% url 'index_page' %}">
+                  <i class="fas fa-home"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Rental Management</h4>
+              </li>
+
+              <!-- Tenants -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#tenantsMenu">
+                  <i class="fas fa-users"></i>
+                  <p>Tenants</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="tenantsMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'tenant_list_page' %}">
+                        <span class="sub-item">Tenant List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'tenant_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Tenant</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Owners -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#ownersMenu">
+                  <i class="fas fa-user-tie"></i>
+                  <p>Owners</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="ownersMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'owner_list_page' %}">
+                        <span class="sub-item">Owner List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'owner_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Owner</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Buildings -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#buildingsMenu">
+                  <i class="fas fa-building"></i>
+                  <p>Buildings</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="buildingsMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'building_list_page' %}">
+                        <span class="sub-item">Building List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'building_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Building</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Rentals -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#rentalsMenu">
+                  <i class="fas fa-key"></i>
+                  <p>Rentals</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="rentalsMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'rental_list_page' %}">
+                        <span class="sub-item">Rental List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'rental_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Rental</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Payments -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#paymentsMenu">
+                  <i class="fas fa-file-invoice-dollar"></i>
+                  <p>Payments</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="paymentsMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'payment_list_page' %}">
+                        <span class="sub-item">Payment List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'payment_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Payment</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Maintenance -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#maintenanceMenu">
+                  <i class="fas fa-wrench"></i>
+                  <p>Maintenance</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="maintenanceMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'maintenance_list_page' %}">
+                        <span class="sub-item">Maintenance List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'maintenance_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Maintenance</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Utilities -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#utilitiesMenu">
+                  <i class="fas fa-bolt"></i>
+                  <p>Utilities</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="utilitiesMenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'utility_list_page' %}">
+                        <span class="sub-item">Utility List</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'utility_list_page' %}?open_modal=1">
+                        <span class="sub-item">Add Utility</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Authentication & Account Section -->
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Account</h4>
+              </li>
+
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a href="#">
+                    <i class="fas fa-user-circle"></i>
+                    <p>{{ user.username }}</p>
+                    <span class="badge badge-success">Online</span>
+                  </a>
+                </li>
+                <li class="nav-item px-3 py-2">
+                  <a href="{% url 'logout' %}" class="btn btn-danger btn-sm w-100 text-start text-white text-decoration-none">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                  </a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a href="{% url 'login' %}">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <p>Login</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'sign_up_page' %}">
+                    <i class="fas fa-user-plus"></i>
+                    <p>Sign Up</p>
+                  </a>
+                </li>
+              {% endif %}
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="{% url 'index_page' %}" class="logo text-white text-decoration-none d-flex align-items-center">
+                <i class="fas fa-building text-info me-2 fs-4"></i>
+                <span class="fw-bold fs-4 text-white">Rental Mgt</span>
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- Navbar Header -->
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+              >
+                <div class="input-group opacity-50" title="Search coming soon">
+                  <div class="input-group-prepend">
+                    <button type="button" class="btn btn-search pe-1" disabled>
+                      <i class="fa fa-search search-icon"></i>
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search (coming soon) ..."
+                    class="form-control"
+                    disabled
+                  />
+                </div>
+              </nav>
+
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                <li
+                  class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
+                >
+                  <a
+                    class="nav-link dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                  >
+                    <i class="fa fa-search"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-search animated fadeIn">
+                    <form class="navbar-left navbar-form nav-search">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder="Search ..."
+                          class="form-control"
+                        />
+                      </div>
+                    </form>
+                  </ul>
+                </li>
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="notifDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa fa-bell"></i>
+                    {% if admin_notifications_count > 0 %}
+                      <span class="notification bg-danger">{{ admin_notifications_count }}</span>
+                    {% endif %}
+                  </a>
+                  <ul
+                    class="dropdown-menu notif-box animated fadeIn"
+                    aria-labelledby="notifDropdown"
+                  >
+                    <li>
+                      <div class="dropdown-title">
+                        {% if admin_notifications_count > 0 %}
+                          You have {{ admin_notifications_count }} pending maintenance request{{ admin_notifications_count|pluralize }}
+                        {% else %}
+                          No new notifications
+                        {% endif %}
+                      </div>
+                    </li>
+                    <li>
+                      <div class="notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          {% for notif in admin_notifications %}
+                            <a href="{% url 'edit_maintenance_page' notif.id %}">
+                              <div class="notif-icon notif-warning">
+                                <i class="fa fa-wrench"></i>
+                              </div>
+                              <div class="notif-content">
+                                <span class="block fw-semibold">
+                                  {{ notif.rental.tenant|default:"Vacant Unit" }} ({{ notif.rental.building.address }})
+                                </span>
+                                <span class="block text-truncate" style="max-width: 220px;">
+                                  {{ notif.description }}
+                                </span>
+                                <span class="time">{{ notif.maintenance_date }}</span>
+                              </div>
+                            </a>
+                          {% empty %}
+                            <div class="p-3 text-center text-muted small">
+                              All maintenance requests are up to date!
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <a class="see-all" href="{% url 'maintenance_list_page' %}">
+                        See all maintenance requests<i class="fa fa-angle-right"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <i class="fas fa-layer-group"></i>
+                  </a>
+                  <div class="dropdown-menu quick-actions animated fadeIn">
+                    <div class="quick-actions-header">
+                      <span class="title mb-1">Quick Actions</span>
+                      <span class="subtitle op-7">Shortcuts</span>
+                    </div>
+                    <div class="quick-actions-scroll scrollbar-outer">
+                      <div class="quick-actions-items">
+                        <div class="row m-0">
+                          <a class="col-6 col-md-4 p-0" href="{% url 'rental_list_page' %}">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-danger rounded-circle">
+                                <i class="far fa-calendar-alt"></i>
+                              </div>
+                              <span class="text">Rentals</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'building_list_page' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-warning rounded-circle"
+                              >
+                                <i class="fas fa-building"></i>
+                              </div>
+                              <span class="text">Buildings</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'tenant_list_page' %}">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-info rounded-circle">
+                                <i class="fas fa-users"></i>
+                              </div>
+                              <span class="text">Tenants</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'owner_list_page' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-success rounded-circle"
+                              >
+                                <i class="fas fa-user-tie"></i>
+                              </div>
+                              <span class="text">Owners</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'payment_list_page' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-primary rounded-circle"
+                              >
+                                <i class="fas fa-file-invoice-dollar"></i>
+                              </div>
+                              <span class="text">Payments</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'maintenance_list_page' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-warning rounded-circle"
+                              >
+                                <i class="fas fa-wrench"></i>
+                              </div>
+                              <span class="text">Maintenance</span>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a
+                    class="dropdown-toggle profile-pic"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <div class="avatar-sm">
+                      <img
+                        src="{% static 'assets/img/halo pic 1.jpg' %}"
+                        alt="..."
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <span class="profile-username">
+                      <span class="op-7">Hi,</span>
+                      <span class="fw-bold">{{ user.username|default:"Guest" }}</span>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                    <div class="dropdown-user-scroll scrollbar-outer">
+                      <li>
+                        <div class="user-box">
+                          <div class="avatar-lg">
+                            <img
+                              src="{% static 'assets/img/halo pic 1.jpg' %}"
+                              alt="image profile"
+                              class="avatar-img rounded"
+                            />
+                          </div>
+                          <div class="u-text">
+                            <h4>{{ user.username|default:"Guest" }}</h4>
+                            <p class="text-muted">{{ user.email|default:"No email set" }}</p>
+                            <a
+                              href="{% url 'index_page' %}"
+                              class="btn btn-xs btn-secondary btn-sm"
+                              >Dashboard</a
+                            >
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'tenant_list_page' %}">Tenants</a>
+                        <a class="dropdown-item" href="{% url 'rental_list_page' %}">Rentals</a>
+                        <a class="dropdown-item" href="{% url 'payment_list_page' %}">Payments</a>
+                        <div class="dropdown-divider"></div>
+                        {% if user.is_authenticated %}
+                          <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout
+                          </a>
+                        {% else %}
+                          <a class="dropdown-item text-primary" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login
+                          </a>
+                          <a class="dropdown-item text-success" href="{% url 'sign_up_page' %}">
+                            <i class="fas fa-user-plus me-1"></i> Sign Up
+                          </a>
+                        {% endif %}
+                      </li>
+                    </div>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+
+        <div class="container">
+          <div class="page-inner">
+            {% if messages %}
+              <div class="mb-3">
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% block content %}
+            {% endblock content %}
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid d-flex justify-content-between">
+            <nav class="pull-left">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'index_page' %}">
+                    Rental Management
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Help </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Licenses </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="copyright">
+              2026, Rental Management System
+            </div>
+            <div>
+              Powered by Django
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Core JS Files -->
+    <script src="{% static 'assets/js/core/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="{% static 'assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+
+    <!-- Chart JS -->
+    <script src="{% static 'assets/js/plugin/chart.js/chart.min.js' %}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="{% static 'assets/js/kaiadmin.min.js' %}"></script>
+</body>
+</html>

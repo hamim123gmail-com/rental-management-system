@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}Tenant Portal - Rental Management{% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="{% static 'assets/img/kaiadmin/favicon.ico' %}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="{% static 'assets/js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{% static 'assets/css/fonts.min.css' %}"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/plugins.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/kaiadmin.min.css' %}" />
+    <style>
+      body {
+        background-color: #f5f7fd;
+      }
+      .tenant-navbar {
+        background: #1a2035;
+        box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.1);
+      }
+      .tenant-nav-link {
+        color: #c9d2e3 !important;
+        font-weight: 500;
+        margin-right: 1rem;
+        transition: color 0.2s ease;
+      }
+      .tenant-nav-link:hover, .tenant-nav-link.active {
+        color: #ffffff !important;
+      }
+      .card {
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        border: none;
+      }
+      .card-header {
+        background: transparent;
+        border-bottom: 1px solid #f0f2f5;
+        font-weight: 600;
+      }
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+      }
+    </style>
+</head>
+<body>
+    <!-- Tenant Top Header Navbar ONLY (No Sidebar) -->
+    <nav class="navbar navbar-expand-lg tenant-navbar sticky-top py-2">
+      <div class="container">
+        <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{% url 'tenant_dashboard_page' %}">
+          <i class="fas fa-building text-info me-2 fs-4"></i>
+          <span>Rental Mgt</span>
+          <span class="badge bg-info text-dark ms-2 fw-semibold" style="font-size: 0.72rem;">Tenant Portal</span>
+        </a>
+
+        <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#tenantNav" aria-controls="tenantNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars text-white"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="tenantNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <li class="nav-item">
+              <a class="nav-link tenant-nav-link" href="#rental-details">
+                <i class="fas fa-home me-1"></i> My Rental
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link tenant-nav-link" href="#payment-status">
+                <i class="fas fa-file-invoice-dollar me-1"></i> Payment Status
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link tenant-nav-link" href="#maintenance-section">
+                <i class="fas fa-wrench me-1"></i> Request Maintenance
+              </a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center">
+            <div class="dropdown">
+              <a class="text-white text-decoration-none dropdown-toggle d-flex align-items-center" href="#" role="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{% static 'assets/img/halo pic 2.jpg' %}" alt="Avatar" class="rounded-circle me-2 border border-2 border-primary" style="width: 36px; height: 36px; object-fit: cover;">
+                <div class="text-start d-none d-sm-block">
+                  <div class="fw-bold lh-1" style="font-size: 0.88rem;">{{ user.username }}</div>
+                  <small class="text-white-50" style="font-size: 0.72rem;">Tenant</small>
+                </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="userMenu">
+                <li class="px-3 py-2 border-bottom">
+                  <span class="fw-bold d-block text-dark">{{ tenant.first_name }} {{ tenant.last_name }}</span>
+                  <small class="text-muted">{{ user.email|default:tenant.email }}</small>
+                </li>
+                {% if user.is_staff or user.is_superuser %}
+                  <li>
+                    <a class="dropdown-item text-primary" href="{% url 'index_page' %}">
+                      <i class="fas fa-user-shield me-2"></i> Switch to Admin
+                    </a>
+                  </li>
+                {% endif %}
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editCredentialsModal">
+                    <i class="fas fa-user-cog me-2 text-secondary"></i> Edit My Credentials
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+      {% if messages %}
+        <div class="mb-4">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}
+      {% endblock content %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-muted border-top mt-5 bg-white">
+      <div class="container">
+        <small>&copy; 2026 Rental Management System &bull; Tenant Services</small>
+      </div>
+    </footer>
+
+    <!-- Core JS Files -->
+    <script src="{% static 'assets/js/core/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+</body>
+</html>
+
