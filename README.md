@@ -8,9 +8,9 @@ A web-based rental property management system built using Django.
 - **Deployment Platform:** Render
 
 ## Group Members
-- **Muhammed Gaddafi Ismail - '224-063011-29204'
-- **Ssemakula Hashim - '224-063011-29070'
-- **Hamim Swaib - '224-063061-30069'
+- Muhammed Gaddafi Ismail - '224-063011-29204'
+- Ssemakula Hashim - '224-063011-29070'
+- Hamim Swaib - '224-063061-30069'
 
 
 ## Admin Credentials (Evaluation)
